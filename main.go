@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"net/http"
 	"os"
 )
 
@@ -18,9 +19,13 @@ func main() {
 	err := f.Parse(os.Args[1:])
 
 	if err == nil {
+                server := http.Server {
+                        Addr: l,
+                }
+		server.ListenAndServe()
 		fmt.Println(l)
-	}else {
-                fmt.Println("nc: missing port number")
-                return
-        }
+	} else {
+		fmt.Println("nc: missing port number")
+		return
+	}
 }
