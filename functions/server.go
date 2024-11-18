@@ -29,6 +29,9 @@ func Server(ip string) {
 		}
 		fmt.Print("Message Received:", string(message))
 		newmessage, err := bufio.NewReader(os.Stdin).ReadString('\n')
+        if err != nil {
+            log.Fatal(err)
+        }
 		conn.Write([]byte(newmessage + "\n"))
 	}
 }
