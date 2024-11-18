@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"strings"
+	"os"
 )
 
 func Server(ip string) {
@@ -28,7 +28,7 @@ func Server(ip string) {
 			log.Fatal(err)
 		}
 		fmt.Print("Message Received:", string(message))
-		newmessage := strings.ToUpper(message)
+		newmessage, err := bufio.NewReader(os.Stdin).ReadString('\n')
 		conn.Write([]byte(newmessage + "\n"))
 	}
 }
