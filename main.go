@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	netcat "netcat/functions"
@@ -8,11 +9,12 @@ import (
 
 func main() {
 	args := os.Args
-	var ip string
+	var port string
 	if len(args) > 2 {
+		fmt.Println("[USAGE]: ./TCPChat $port")
 		return
 	} else if len(args) == 2 {
-		ip = args[1]
+		port = args[1]
 	}
-	netcat.Server(ip)
+	netcat.Server(port)
 }
