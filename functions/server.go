@@ -15,7 +15,7 @@ func Server(ip string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("Listening on port" + ip)
+	fmt.Println("Listening on the port " + ip)
 
 	for {
 		conn, err := ln.Accept()
