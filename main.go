@@ -8,7 +8,11 @@ import (
 
 func main() {
 	args := os.Args
-	if args[1] == "-s" {
-		netcat.Server(args[2])
+	var ip string
+	if len(args) > 2 {
+		return
+	} else if len(args) == 2 {
+		ip = args[1]
 	}
+	netcat.Server(ip)
 }
