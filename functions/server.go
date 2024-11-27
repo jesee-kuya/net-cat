@@ -6,7 +6,14 @@ import (
 	"net"
 )
 
+type Client struct {
+	name string
+	conn net.Conn
+}
+
 func Server(ip string) {
+	var channel chan string = make(chan string)
+	var msg string
 	if ip == "" {
 		ip = "8989"
 	}
@@ -21,7 +28,12 @@ func Server(ip string) {
 		if err != nil {
 			log.Fatal(err)
 		}
-		go Reader(conn)
-		go Writer(conn)
+		go Reader(conn, channel)
+		go Writer(conn, channel)
+
+		for {
+			msg += <-channel
+			fmt.Print(msg)
+		}
 	}
 }
