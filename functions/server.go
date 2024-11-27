@@ -6,10 +6,10 @@ import (
 	"net"
 )
 
-type Client struct {
-	name string
-	conn net.Conn
-}
+// type Client struct {
+// 	name string
+// 	conn net.Conn
+// }
 
 func Server(ip string) {
 	var channel chan string = make(chan string)
