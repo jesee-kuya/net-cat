@@ -2,15 +2,16 @@ package netcat
 
 import (
 	"bufio"
-	"fmt"
 	"log"
 	"net"
 )
 
-func Reader(conn net.Conn) {
-	message, err := bufio.NewReader(conn).ReadString('\n')
-	if err != nil {
-		log.Fatal(err)
+func Reader(conn net.Conn, channel chan string) {
+	for {
+		message, err := bufio.NewReader(conn).ReadString('\n')
+		if err != nil {
+			log.Fatal(err)
+		}
+		channel <- message
 	}
-	fmt.Print("Message Received:", string(message))
 }
