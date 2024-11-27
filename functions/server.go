@@ -7,9 +7,8 @@ import (
 )
 
 func Server(ip string) {
-	dflt := "8989"
 	if ip == "" {
-		ip = dflt
+		ip = "8989"
 	}
 	ln, err := net.Listen("tcp", ":"+ip)
 	if err != nil {
@@ -23,5 +22,6 @@ func Server(ip string) {
 			log.Fatal(err)
 		}
 		go Reader(conn)
+		go Writer(conn)
 	}
 }
