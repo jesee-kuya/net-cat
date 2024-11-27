@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"net"
-	"os"
 )
 
 func Reader(conn net.Conn) {
@@ -14,9 +13,4 @@ func Reader(conn net.Conn) {
 		log.Fatal(err)
 	}
 	fmt.Print("Message Received:", string(message))
-	newmessage, err := bufio.NewReader(os.Stdin).ReadString('\n')
-	if err != nil {
-		log.Fatal(err)
-	}
-	conn.Write([]byte(newmessage + "\n"))
 }
