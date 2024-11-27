@@ -1,15 +1,13 @@
 package netcat
 
 import (
-	"bufio"
 	"fmt"
 	"log"
 	"net"
-	"os"
 )
 
 func Server(ip string) {
-	dflt := "8080"
+	dflt := "8989"
 	if ip == "" {
 		ip = dflt
 	}
@@ -26,17 +24,4 @@ func Server(ip string) {
 		}
 		go Reader(conn)
 	}
-}
-
-func Reader(conn net.Conn) {
-	message, err := bufio.NewReader(conn).ReadString('\n')
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Print("Message Received:", string(message))
-	newmessage, err := bufio.NewReader(os.Stdin).ReadString('\n')
-	if err != nil {
-		log.Fatal(err)
-	}
-	conn.Write([]byte(newmessage + "\n"))
 }
