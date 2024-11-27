@@ -18,20 +18,25 @@ func Server(ip string) {
 		log.Fatal(err)
 	}
 	fmt.Println("Listening on port" + ip)
-	conn, err := ln.Accept()
-	if err != nil {
-		log.Fatal(err)
-	}
+
 	for {
-		message, err := bufio.NewReader(conn).ReadString('\n')
+		conn, err := ln.Accept()
 		if err != nil {
 			log.Fatal(err)
 		}
-		fmt.Print("Message Received:", string(message))
-		newmessage, err := bufio.NewReader(os.Stdin).ReadString('\n')
-        if err != nil {
-            log.Fatal(err)
-        }
-		conn.Write([]byte(newmessage + "\n"))
+		go Reader(conn)
 	}
+}
+
+func Reader(conn net.Conn) {
+	message, err := bufio.NewReader(conn).ReadString('\n')
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Print("Message Received:", string(message))
+	newmessage, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	if err != nil {
+		log.Fatal(err)
+	}
+	conn.Write([]byte(newmessage + "\n"))
 }
