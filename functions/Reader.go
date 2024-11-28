@@ -2,6 +2,7 @@ package netcat
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"net"
 )
@@ -9,7 +10,12 @@ import (
 func Reader(conn net.Conn) {
 	var client Client
 	client.conn = conn
-	conn.Write([]byte("\n[ENTER YOUR NAME]: "))
+	entry, err := Readfile("./src/logo.txt")
+	if err != nil {
+		conn.Write([]byte(fmt.Sprintf("%v", err)))
+		return
+	}
+	conn.Write([]byte(entry))
 	name, err := bufio.NewReader(conn).ReadString('\n')
 	if err != nil {
 		conn.Write([]byte("Wrong name"))
