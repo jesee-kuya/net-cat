@@ -24,11 +24,15 @@ func Reader(conn net.Conn) {
 	}
 	name = strings.TrimSpace(name)
 	client.name = name
+	ent := fmt.Sprintf("%v has joined the chat\n", name)
+	ext := fmt.Sprintf("%v has left the chat\n", name)
+	Chat(conn, ent)
 	Clients = append(Clients, client)
 
 	for {
 		message, err := bufio.NewReader(conn).ReadString('\n')
 		if err != nil {
+			Chat(conn, ext)
 			Clients = Remove(Clients, conn)
 			conn.Close()
 			break
