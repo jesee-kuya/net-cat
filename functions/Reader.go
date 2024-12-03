@@ -3,16 +3,12 @@ package netcat
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"net"
+	"strings"
+	"time"
 )
 
 func Reader(conn net.Conn) {
-	defer conn.Close()
-	if len(Clients) == 4 {
-		conn.Write([]byte("[Sorry the chat if full, try again later]"))
-		return
-	}
 	var client Client
 	client.conn = conn
 	entry, err := Readfile("./src/logo.txt")
@@ -26,17 +22,18 @@ func Reader(conn net.Conn) {
 		conn.Write([]byte("Connection Denied"))
 		return
 	}
+	name = strings.TrimSpace(name)
 	client.name = name
 	Clients = append(Clients, client)
 
 	for {
 		message, err := bufio.NewReader(conn).ReadString('\n')
 		if err != nil {
-			log.Fatal(err)
+			Clients = Remove(Clients, conn)
+			conn.Close()
+			break
 		}
-		if message != "" {
-			Chat(client.conn, message)
-		}
-		
+		t := fmt.Sprintf("[%v][%v]: %v", time.Now().Format("2006-01-02 15:04:05"), client.name, message)
+		Chat(client.conn, t)
 	}
 }
