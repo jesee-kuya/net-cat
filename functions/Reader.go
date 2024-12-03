@@ -8,6 +8,11 @@ import (
 )
 
 func Reader(conn net.Conn) {
+	defer conn.Close()
+	if len(Clients) == 4 {
+		conn.Write([]byte("[Sorry the chat if full, try again later]"))
+		return
+	}
 	var client Client
 	client.conn = conn
 	entry, err := Readfile("./src/logo.txt")
@@ -18,7 +23,7 @@ func Reader(conn net.Conn) {
 	conn.Write([]byte(entry))
 	name, err := bufio.NewReader(conn).ReadString('\n')
 	if err != nil {
-		conn.Write([]byte("Wrong name"))
+		conn.Write([]byte("Connection Denied"))
 		return
 	}
 	client.name = name
@@ -32,5 +37,6 @@ func Reader(conn net.Conn) {
 		if message != "" {
 			Chat(client.conn, message)
 		}
+		
 	}
 }
