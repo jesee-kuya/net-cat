@@ -29,6 +29,16 @@ func Server(port string) {
 			fmt.Println(err)
 			return
 		}
+		defer conn.Close()
+
+		// mutex.Lock()
+		if len(Clients) == 10 {
+			conn.Write([]byte("Sorry the chat room is full"))
+			conn.Close()
+			// mutex.Unlock()
+			continue
+		}
+		// mutex.Unlock()
 		go Reader(conn)
 	}
 }
