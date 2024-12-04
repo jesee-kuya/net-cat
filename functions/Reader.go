@@ -59,8 +59,8 @@ func Reader(conn net.Conn) {
 			break
 		}
 
+		message = strings.TrimSpace(message)
 		if message != "" {
-
 			if strings.Contains(message, "--cn") {
 				old := client.name
 				Clients, client, err = ChangeName(client)
@@ -76,7 +76,7 @@ func Reader(conn net.Conn) {
 				continue
 			}
 
-			text := fmt.Sprintf("[%v][%v]: %v", time.Now().Format("2006-01-02 15:04:05"), client.name, message)
+			text := fmt.Sprintf("[%v][%v]: %v\n", time.Now().Format("2006-01-02 15:04:05"), client.name, message)
 			History = append(History, text)
 			conn.Write([]byte("\033[F\033[K"))
 			conn.Write([]byte(text))
