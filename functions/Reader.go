@@ -25,9 +25,10 @@ func Reader(conn net.Conn) {
 		conn.Write([]byte("Connection Denied"))
 		return
 	}
+
+	name = strings.TrimSpace(name)
 	ent := fmt.Sprintf("%v has joined the chat\n", name)
 	ext := fmt.Sprintf("%v has left the chat\n", name)
-	name = strings.TrimSpace(name)
 	client.name = name
 	Chat(conn, ent)
 	Clients = append(Clients, client)
