@@ -15,7 +15,7 @@ func ChangeName(client Client) ([]Client, Client, error) {
 		client.conn.Close()
 		Chat(client.conn, ext)
 		Clients = Remove(Clients, client.conn)
-		return Clients, client, fmt.Errorf("Connection closed")
+		return Clients, client, fmt.Errorf("connection closed")
 	}
 	name = strings.TrimSpace(name)
 
