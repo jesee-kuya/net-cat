@@ -39,7 +39,8 @@ func Reader(conn net.Conn) {
 	}
 
 	for {
-		message, err := bufio.NewReader(conn).ReadString('\n')
+		w := bufio.NewReader(conn)
+		message, err := w.ReadString('\n')
 		if err != nil {
 			Chat(conn, ext)
 			Clients = Remove(Clients, conn)
@@ -59,6 +60,8 @@ func Reader(conn net.Conn) {
 			}
 			text := fmt.Sprintf("[%v][%v]: %v", time.Now().Format("2006-01-02 15:04:05"), client.name, message)
 			History = append(History, text)
+			conn.Write([]byte("\033[F\033[K"))
+			conn.Write([]byte(text))
 			Chat(client.conn, text)
 		}
 	}
