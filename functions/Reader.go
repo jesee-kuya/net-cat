@@ -11,6 +11,7 @@ import (
 var History []string
 
 func Reader(conn net.Conn) {
+	count := 0
 	var client Client
 	client.conn = conn
 	entry, err := Readfile("./src/logo.txt")
@@ -29,6 +30,15 @@ func Reader(conn net.Conn) {
 	}
 
 	name = strings.TrimSpace(name)
+	for !CheckName(name) {
+		if count == 5 {
+			conn.Write([]byte("Connection Denied"))
+			conn.Close()
+			return
+		}
+		conn.Write([]byte("Invalid name try another name\n[ENTER YOUR NAME]: ]"))
+		count++
+	}
 	ent := fmt.Sprintf("%v has joined the chat\n", name)
 	client.name = name
 	Chat(conn, ent)
@@ -65,7 +75,7 @@ func Reader(conn net.Conn) {
 				Chat(conn, cn)
 				continue
 			}
-			
+
 			text := fmt.Sprintf("[%v][%v]: %v", time.Now().Format("2006-01-02 15:04:05"), client.name, message)
 			History = append(History, text)
 			conn.Write([]byte("\033[F\033[K"))
