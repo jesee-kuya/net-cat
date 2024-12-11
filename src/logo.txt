@@ -7,7 +7,7 @@ Welcome to TCP-Chat!
       JS^\__/  qKL
      dZP        qKRb
     dZP          qKKb
-   fZP            SMMb
+   fZP            SMM
    HZM            MMMM
    FqM            MMMM
  __| ".        |\dS"qML
